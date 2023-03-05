@@ -2,10 +2,10 @@ import * as THREE from 'three';
 import { AxesHelper } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 /* 导入动画库 */
-// import gsap from 'gsap';
+import gsap from 'gsap';
 
 /* 导入轨道控制器 */
-/* 目标  全屏 退出全屏 */
+/* 目标  掌握gsap 设置各种动画效果 */
 
 /* 1.创建场景 */
 const scene = new THREE.Scene();
@@ -59,33 +59,29 @@ scene.add(asesHlper);
 const clock = new THREE.Clock();
 
 // 设置动画
-// const animation1 = gsap.to(cube.position, {
-//   x: 5,
-//   duration: 5,
-//   ease: 'bounce.out',
-//   onStart: () => {
-//     console.warn('动画开始');
-//   },
-//   onComplete: () => {
-//     console.warn('动画完成');
-//   },
-//   /* 设置重复的次数  无限次循环就是 -1*/
-//   repeat: 2,
-//   /* 往返运动 */
-//   yoyo: true,
-//   delay: 2,
-// });
-// gsap.to(cube.rotation, { x: 2 * Math.PI, duration: 5, repeat: 2 });
+const animation1 = gsap.to(cube.position, {
+  x: 5,
+  duration: 5,
+  ease: 'bounce.out',
+  onStart: () => {
+    console.warn('动画开始');
+  },
+  onComplete: () => {
+    console.warn('动画完成');
+  },
+  /* 设置重复的次数  无限次循环就是 -1*/
+  repeat: 2,
+  /* 往返运动 */
+  yoyo: true,
+  delay: 2,
+});
+gsap.to(cube.rotation, { x: 2 * Math.PI, duration: 5, repeat: 2 });
 
 window.addEventListener('dblclick', () => {
-  // 判断是不是全屏
-  const fullscene = document.fullscreenElement;
-  if (!fullscene) {
-    /* 让画布对象全屏 */
-    renderer.domElement.requestFullscreen();
+  if (animation1.isActive()) {
+    animation1.pause();
   } else {
-    /* 退出全屏 */
-    document.exitFullscreen();
+    animation1.resume();
   }
 });
 
@@ -97,6 +93,10 @@ function render() {
 }
 
 render();
+
+window.addEventListener('resize', () => {
+  console.warn('画面变化了');
+});
 
 window.addEventListener('resize', () => {
   console.warn('画面变化');
