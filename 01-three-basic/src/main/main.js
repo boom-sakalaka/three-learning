@@ -57,8 +57,27 @@ scene.add(asesHlper);
 const clock = new THREE.Clock();
 
 // 设置动画
-gsap.to(cube.position, { x: 5, duration: 5, ease: 'bounce.out' });
-gsap.to(cube.rotation, { x: 2 * Math.PI, duration: 5 });
+const animation1 = gsap.to(cube.position, {
+  x: 5,
+  duration: 5,
+  ease: 'bounce.out',
+  onStart: () => {
+    console.warn('动画开始');
+  },
+  onComplete: () => {
+    console.warn('动画完成');
+  },
+  /* 设置重复的次数  无限次循环就是 -1*/
+  repeat: 2,
+  /* 往返运动 */
+  yoyo: true,
+  delay: 2,
+});
+gsap.to(cube.rotation, { x: 2 * Math.PI, duration: 5, repeat: 2 });
+
+window.addEventListener('dblclick', () => {
+  animation1.pause();
+});
 
 function render() {
   renderer.render(scene, camera);
