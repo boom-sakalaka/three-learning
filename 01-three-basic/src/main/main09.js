@@ -2,10 +2,7 @@ import * as THREE from 'three';
 import { AxesHelper } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 /* 导入动画库 */
-import gsap from 'gsap';
-
-/* 导入 dat.gui 库 */
-import * as dat from 'dat.gui';
+// import gsap from 'gsap';
 
 /* 导入轨道控制器 */
 /* 目标  全屏 退出全屏 */
@@ -26,51 +23,6 @@ const cubeGeometry = new THREE.BoxGeometry();
 const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xfff00 });
 /* 根据集合体和材质 创建物体 */
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-const gui = new dat.GUI();
-gui
-  .add(cube.position, 'x')
-  .min(0)
-  .max(5)
-  .step(0.1)
-  .name('横向长度')
-  .onChange(val => {
-    console.warn('值被修改了====>', val);
-  })
-  .onFinishChange(val => {
-    console.warn('完全停下来的搜索====> ', val);
-  });
-const params = {
-  color: '#ffff00',
-  fn: () => {
-    // 让立方体运动起来
-    gsap.to(cube.position, {
-      x: 5,
-      duration: 5,
-      ease: 'bounce.out',
-      onStart: () => {
-        console.warn('动画开始');
-      },
-      onComplete: () => {
-        console.warn('动画完成');
-      },
-      /* 设置重复的次数  无限次循环就是 -1*/
-      repeat: 2,
-      /* 往返运动 */
-      yoyo: true,
-      delay: 2,
-    });
-  },
-};
-gui.addColor(params, 'color').onFinishChange(val => {
-  console.warn('颜色发生修改===> ', val);
-  cube.material.color.set(val);
-});
-gui.add(cube, 'visible').name('是否显示');
-/* 设置点击按钮 执行操作 */
-gui.add(params, 'fn').name('运动');
-const folder = gui.addFolder('设置立方体');
-folder.add(cube.material, 'wireframe').name('是否显示线框');
 
 /* 修改物体的位置 */
 /* cube.position.set(5, 0, 0); */
@@ -125,17 +77,17 @@ const clock = new THREE.Clock();
 // });
 // gsap.to(cube.rotation, { x: 2 * Math.PI, duration: 5, repeat: 2 });
 
-// window.addEventListener('dblclick', () => {
-//   // 判断是不是全屏
-//   const fullscene = document.fullscreenElement;
-//   if (!fullscene) {
-//     /* 让画布对象全屏 */
-//     renderer.domElement.requestFullscreen();
-//   } else {
-//     /* 退出全屏 */
-//     document.exitFullscreen();
-//   }
-// });
+window.addEventListener('dblclick', () => {
+  // 判断是不是全屏
+  const fullscene = document.fullscreenElement;
+  if (!fullscene) {
+    /* 让画布对象全屏 */
+    renderer.domElement.requestFullscreen();
+  } else {
+    /* 退出全屏 */
+    document.exitFullscreen();
+  }
+});
 
 function render() {
   controls.update();
