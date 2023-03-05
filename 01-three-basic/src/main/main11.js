@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { AxesHelper } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-/* 目标  打造 酷炫 三角形 */
+/* 目标 自己创建 几何体 */
 
 /* 1.创建场景 */
 const scene = new THREE.Scene();
@@ -16,26 +16,17 @@ scene.add(camera);
 
 /* 添加物体 */
 /* 创建 几何体 对象 */
+// const cubeGeometry = new THREE.BoxGeometry();
+// const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xfff00 });
+const geometry = new THREE.BufferGeometry();
+const vertices = new Float32Array([
+  -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0,
+]);
+geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+const Material = new THREE.MeshBasicMaterial({ color: 0xfff00 });
+const mesh = new THREE.Mesh(geometry, Material);
 
-for (let i = 0; i < 50; i++) {
-  const geometry = new THREE.BufferGeometry();
-  const position = new Float32Array(9);
-  for (let j = 0; j < 9; j++) {
-    position[j] = Math.random() * 10 - 5;
-  }
-
-  geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
-  let color = new THREE.Color(Math.random(), Math.random(), Math.random());
-  const Material = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.5 });
-  const mesh = new THREE.Mesh(geometry, Material);
-  console.warn(mesh);
-  scene.add(mesh);
-}
-
-// const geometry = new THREE.BufferGeometry();
-// const vertices = new Float32Array([
-//   -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0,
-// ]);
+scene.add(mesh);
 
 /* 根据集合体和材质 创建物体 */
 // const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
