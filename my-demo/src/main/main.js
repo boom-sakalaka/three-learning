@@ -1,6 +1,7 @@
 /* http://www.webgl3d.cn/Three.js/ */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { AxesHelper } from 'three';
 
 /**
  * 创建场景对象Scene
@@ -11,10 +12,18 @@ var scene = new THREE.Scene();
  */
 // var geometry = new THREE.SphereGeometry(60, 40, 40); //创建一个球体几何对象
 var geometry = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象Geometry
-var material = new THREE.MeshLambertMaterial({
+// var material = new THREE.MeshLambertMaterial({
+//   color: 0x0000ff,
+//   opacity: 0.7,
+//   transparent: true,
+// }); //材质对象Material
+// var mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
+var sphereMaterial = new THREE.MeshPhongMaterial({
   color: 0x0000ff,
-}); //材质对象Material
-var mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
+  specular: 0x4488ee,
+  shininess: 12,
+}); //材质对象
+var mesh = new THREE.Mesh(geometry, sphereMaterial); //网格模型对象Mesh
 scene.add(mesh); //网格模型添加到场景中
 /**
  * 光源设置
@@ -23,6 +32,12 @@ scene.add(mesh); //网格模型添加到场景中
 var point = new THREE.PointLight(0xffffff);
 point.position.set(400, 200, 300); //点光源位置
 scene.add(point); //点光源添加到场景中
+
+// 点光源2  位置和point关于原点对称
+var point2 = new THREE.PointLight(0xffffff);
+point2.position.set(-400, -200, -300); //点光源位置
+scene.add(point2); //点光源添加到场景中
+
 //环境光
 var ambient = new THREE.AmbientLight(0x444444);
 scene.add(ambient);
@@ -48,6 +63,10 @@ renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
 document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
 //执行渲染操作   指定场景、相机作为参数
 // renderer.render(scene, camera);
+
+// 辅助坐标系  参数250表示坐标系大小，可以根据场景大小去设置
+var axisHelper = new AxesHelper(250);
+scene.add(axisHelper);
 
 function render() {
   console.warn('渲染');
