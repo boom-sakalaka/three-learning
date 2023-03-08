@@ -3,46 +3,13 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { AxesHelper } from 'three';
 
+/*========================== 光照阴阳计算 ==========================*/
+
 /**
  * 创建场景对象Scene
  */
 var scene = new THREE.Scene();
-/**
- * 创建网格模型
- */
-// var geometry = new THREE.SphereGeometry(60, 40, 40); //创建一个球体几何对象
-var geometry = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象Geometry
-// var material = new THREE.MeshLambertMaterial({
-//   color: 0x0000ff,
-//   opacity: 0.7,
-//   transparent: true,
-// }); //材质对象Material
-// var mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
-var sphereMaterial = new THREE.MeshPhongMaterial({
-  color: 0x0000ff,
-  specular: 0x4488ee,
-  shininess: 12,
-}); //材质对象
-var mesh = new THREE.Mesh(geometry, sphereMaterial); //网格模型对象Mesh
-scene.add(mesh); //网格模型添加到场景中
-/**
- * 光源设置
- */
-//点光源
-var point = new THREE.PointLight(0xffffff);
-point.position.set(400, 200, 300); //点光源位置
-scene.add(point); //点光源添加到场景中
 
-// 点光源2  位置和point关于原点对称
-var point2 = new THREE.PointLight(0xffffff);
-point2.position.set(-400, -200, -300); //点光源位置
-scene.add(point2); //点光源添加到场景中
-
-//环境光
-var ambient = new THREE.AmbientLight(0x444444);
-scene.add(ambient);
-// console.log(scene)
-// console.log(scene.children)
 /**
  * 相机设置
  */
