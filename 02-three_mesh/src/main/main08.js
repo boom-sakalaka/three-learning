@@ -1,10 +1,10 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 // 导入轨道控制器
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // 导入动画库
-import gsap from "gsap";
+import gsap from 'gsap';
 // 导入dat.gui
-import * as dat from "dat.gui";
+import * as dat from 'dat.gui';
 
 // 目标：AO环境遮挡贴图
 
@@ -12,12 +12,7 @@ import * as dat from "dat.gui";
 const scene = new THREE.Scene();
 
 // 2、创建相机
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 // 设置相机位置
 camera.position.set(0, 0, 10);
@@ -25,17 +20,15 @@ scene.add(camera);
 
 // 导入纹理
 const textureLoader = new THREE.TextureLoader();
-const doorColorTexture = textureLoader.load("./textures/door/color.jpg");
-const doorAplhaTexture = textureLoader.load("./textures/door/alpha.jpg");
-const doorAoTexture = textureLoader.load(
-  "./textures/door/ambientOcclusion.jpg"
-);
+const doorColorTexture = textureLoader.load('./textures/door/color.jpg');
+const doorAplhaTexture = textureLoader.load('./textures/door/alpha.jpg');
+const doorAoTexture = textureLoader.load('./textures/door/ambientOcclusion.jpg');
 
 // 添加物体
 const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
 // 材质
 const basicMaterial = new THREE.MeshBasicMaterial({
-  color: "#ffff00",
+  color: '#ffff00',
   map: doorColorTexture,
   alphaMap: doorAplhaTexture,
   transparent: true,
@@ -48,10 +41,7 @@ basicMaterial.side = THREE.DoubleSide;
 const cube = new THREE.Mesh(cubeGeometry, basicMaterial);
 scene.add(cube);
 // 给cube添加第二组uv
-cubeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2)
-);
+cubeGeometry.setAttribute('uv2', new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2));
 
 // 添加平面
 const planeGeometry = new THREE.PlaneBufferGeometry(1, 1);
@@ -61,10 +51,7 @@ plane.position.set(3, 0, 0);
 scene.add(plane);
 // console.log(plane);
 // 给平面设置第二组uv
-planeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)
-);
+planeGeometry.setAttribute('uv2', new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2));
 
 // 初始化渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -98,7 +85,7 @@ function render() {
 render();
 
 // 监听画面变化，更新渲染画面
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   //   console.log("画面变化了");
   // 更新摄像头
   camera.aspect = window.innerWidth / window.innerHeight;
