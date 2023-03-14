@@ -1,10 +1,10 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 // 导入轨道控制器
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // 导入动画库
-import gsap from "gsap";
+import gsap from 'gsap';
 // 导入dat.gui
-import * as dat from "dat.gui";
+import * as dat from 'dat.gui';
 
 // 目标：纹理的进度
 
@@ -12,76 +12,65 @@ import * as dat from "dat.gui";
 const scene = new THREE.Scene();
 
 // 2、创建相机
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 // 设置相机位置
 camera.position.set(0, 0, 10);
 scene.add(camera);
 
-var div = document.createElement("div");
-div.style.width = "200px";
-div.style.height = "200px";
-div.style.position = "fixed";
+var div = document.createElement('div');
+div.style.width = '200px';
+div.style.height = '200px';
+div.style.position = 'fixed';
 div.style.right = 0;
 div.style.top = 0;
-div.style.color = "#fff";
+div.style.color = '#fff';
 document.body.appendChild(div);
 let event = {};
 // 单张纹理图的加载
 event.onLoad = function () {
-  console.log("图片加载完成");
+  console.log('图片加载完成');
 };
 event.onProgress = function (url, num, total) {
-  console.log("图片加载完成:", url);
-  console.log("图片加载进度:", num);
-  console.log("图片总数:", total);
-  let value = ((num / total) * 100).toFixed(2) + "%";
-  console.log("加载进度的百分比：", value);
+  console.log('图片加载完成:', url);
+  console.log('图片加载进度:', num);
+  console.log('图片总数:', total);
+  let value = ((num / total) * 100).toFixed(2) + '%';
+  console.log('加载进度的百分比：', value);
   div.innerHTML = value;
 };
 event.onError = function (e) {
-  console.log("图片加载出现错误");
+  console.log('图片加载出现错误');
   console.log(e);
 };
 
 // 设置加载管理器
-const loadingManager = new THREE.LoadingManager(
-  event.onLoad,
-  event.onProgress,
-  event.onError
-);
+const loadingManager = new THREE.LoadingManager(event.onLoad, event.onProgress, event.onError);
 // 导入纹理
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const doorColorTexture = textureLoader.load(
-  "./textures/door/color.jpg"
+  './textures/door/color.jpg'
   //   event.onLoad,
   //   event.onProgress,
   //   event.onError
 );
 
-const doorAplhaTexture = textureLoader.load("./textures/door/alpha.jpg");
-const doorAoTexture = textureLoader.load(
-  "./textures/door/ambientOcclusion.jpg"
-);
+const doorAplhaTexture = textureLoader.load('./textures/door/alpha.jpg'); /* 透明贴图 */
+const doorAoTexture = textureLoader.load('./textures/door/ambientOcclusion.jpg'); /* 遮挡贴图 勾勒出了 门框 的 阴影 */
 //导入置换贴图
-const doorHeightTexture = textureLoader.load("./textures/door/height.jpg");
+const doorHeightTexture = textureLoader.load('./textures/door/height.jpg'); /* 移动物体 产生 立体效果 */
 // 导入粗糙度贴图
-const roughnessTexture = textureLoader.load("./textures/door/roughness.jpg");
+const roughnessTexture = textureLoader.load('./textures/door/roughness.jpg'); /* 粗糙度贴图 展示物体的反射光的程度 */
 // 导入金属贴图
-const metalnessTexture = textureLoader.load("./textures/door/metalness.jpg");
+const metalnessTexture = textureLoader.load('./textures/door/metalness.jpg'); /* 让物体更有 金属 光泽度 */
 // 导入法线贴图
-const normalTexture = textureLoader.load("./textures/door/normal.jpg");
+const normalTexture = textureLoader.load('./textures/door/normal.jpg'); /*  设置光线折射相关 让物体更加真实 */
 
 // 添加物体
 const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1, 100, 100, 100);
 // 材质
 const material = new THREE.MeshStandardMaterial({
-  color: "#ffff00",
+  color: '#ffff00',
   map: doorColorTexture,
   alphaMap: doorAplhaTexture,
   transparent: true,
@@ -101,10 +90,7 @@ material.side = THREE.DoubleSide;
 const cube = new THREE.Mesh(cubeGeometry, material);
 scene.add(cube);
 // 给cube添加第二组uv
-cubeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2)
-);
+cubeGeometry.setAttribute('uv2', new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2));
 
 // 添加平面
 const planeGeometry = new THREE.PlaneBufferGeometry(1, 1, 200, 200);
@@ -114,10 +100,7 @@ plane.position.set(1.5, 0, 0);
 scene.add(plane);
 // console.log(plane);
 // 给平面设置第二组uv
-planeGeometry.setAttribute(
-  "uv2",
-  new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)
-);
+planeGeometry.setAttribute('uv2', new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2));
 
 // 灯光
 // 环境光
@@ -160,7 +143,7 @@ function render() {
 render();
 
 // 监听画面变化，更新渲染画面
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   //   console.log("画面变化了");
   // 更新摄像头
   camera.aspect = window.innerWidth / window.innerHeight;

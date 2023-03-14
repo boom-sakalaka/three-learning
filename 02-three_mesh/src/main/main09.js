@@ -32,7 +32,7 @@ const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1, 100, 100, 100);
 const material = new THREE.MeshStandardMaterial({
   color: '#ffff00',
   map: doorColorTexture,
-  alphaMap: doorAplhaTexture,
+  alphaMap: doorAplhaTexture /* 透明度 */,
   transparent: true,
   aoMap: doorAoTexture,
   aoMapIntensity: 1,
