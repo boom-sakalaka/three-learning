@@ -1,11 +1,11 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 // 导入轨道控制器
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // 导入动画库
-import gsap from "gsap";
+import gsap from 'gsap';
 // 导入dat.gui
-import * as dat from "dat.gui";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+import * as dat from 'dat.gui';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 // 目标：阴影的属性与投影相机原理
 // 灯光阴影
 // 1、材质要满足能够对光照有反应
@@ -19,12 +19,7 @@ const gui = new dat.GUI();
 const scene = new THREE.Scene();
 
 // 2、创建相机
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 // 设置相机位置
 camera.position.set(0, 0, 10);
@@ -71,7 +66,7 @@ directionalLight.shadow.camera.right = 5;
 
 scene.add(directionalLight);
 gui
-  .add(directionalLight.shadow.camera, "near")
+  .add(directionalLight.shadow.camera, 'near')
   .min(0)
   .max(10)
   .step(0.1)
@@ -114,7 +109,7 @@ function render() {
 render();
 
 // 监听画面变化，更新渲染画面
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   //   console.log("画面变化了");
   // 更新摄像头
   camera.aspect = window.innerWidth / window.innerHeight;
