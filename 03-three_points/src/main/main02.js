@@ -5,11 +5,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import gsap from 'gsap';
 // 导入dat.gui
 import * as dat from 'dat.gui';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
-import { MeshBasicMaterial } from 'three';
-// 目标：点光源
 
-// const gui = new dat.GUI();
+// 目标：使用pointes设置随机顶点打造星河
+
+const gui = new dat.GUI();
 // 1、创建场景
 const scene = new THREE.Scene();
 
@@ -20,53 +19,43 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.position.set(0, 0, 10);
 scene.add(camera);
 
-const sphereGeometry = new THREE.SphereBufferGeometry(1, 20, 20);
-const material = new THREE.MeshStandardMaterial();
-const sphere = new THREE.Mesh(sphereGeometry, material);
-// 投射阴影
-sphere.castShadow = true;
+const particlesGeometry = new THREE.BufferGeometry();
+const count = 5000;
 
-scene.add(sphere);
+// 设置缓冲区数组
+const positions = new Float32Array(count * 3);
+// 设置粒子顶点颜色
+const colors = new Float32Array(count * 3);
+// 设置顶点
+for (let i = 0; i < count * 3; i++) {
+  positions[i] = (Math.random() - 0.5) * 100;
+  colors[i] = Math.random();
+}
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-// // 创建平面
-const planeGeometry = new THREE.PlaneBufferGeometry(50, 50);
-const plane = new THREE.Mesh(planeGeometry, material);
-plane.position.set(0, -1, 0);
-plane.rotation.x = -Math.PI / 2;
-// 接收阴影
-plane.receiveShadow = true;
-scene.add(plane);
+// 设置点材质
+const pointsMaterial = new THREE.PointsMaterial();
+pointsMaterial.size = 0.5;
+pointsMaterial.color.set(0xfff000);
+// 相机深度而衰减
+pointsMaterial.sizeAttenuation = true;
 
-// 灯光
-// 环境光
-const light = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
-scene.add(light);
+// 载入纹理
+const textureLoader = new THREE.TextureLoader();
+const texture = textureLoader.load('./textures/particles/zs2.png');
+// 设置点材质纹理
+pointsMaterial.map = texture;
+pointsMaterial.alphaMap = texture;
+pointsMaterial.transparent = true;
+pointsMaterial.depthWrite = false;
+pointsMaterial.blending = THREE.AdditiveBlending;
+// 设置启动顶点颜色
+pointsMaterial.vertexColors = true;
 
-const smallBall = new THREE.Mesh(
-  new THREE.SphereBufferGeometry(0.1, 20, 20),
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-smallBall.position.set(100, 100, 100);
-//直线光源
-const pointLight = new THREE.PointLight(0xff0000, 1);
-// pointLight.position.set(2, 2, 2);
-pointLight.castShadow = true;
+const points = new THREE.Points(particlesGeometry, pointsMaterial);
 
-// 设置阴影贴图模糊度
-pointLight.shadow.radius = 100;
-// 设置阴影贴图的分辨率
-pointLight.shadow.mapSize.set(512, 512);
-pointLight.decay = 0;
-pointLight.distance = 5;
-
-// 设置透视相机的属性
-smallBall.add(pointLight);
-scene.add(smallBall);
-
-// gui.add(pointLight.position, "x").min(-5).max(5).step(0.1);
-
-// gui.add(pointLight, "distance").min(0).max(5).step(0.001);
-// gui.add(pointLight, "decay").min(0).max(5).step(0.01);
+scene.add(points);
 
 // 初始化渲染器
 const renderer = new THREE.WebGLRenderer();
@@ -96,9 +85,6 @@ const clock = new THREE.Clock();
 
 function render() {
   let time = clock.getElapsedTime();
-  smallBall.position.x = Math.sin(time) * 3;
-  smallBall.position.z = Math.cos(time) * 3;
-  smallBall.position.y = 2 + Math.sin(time * 10) / 2;
   controls.update();
   renderer.render(scene, camera);
   //   渲染下一帧的时候就会调用render函数
