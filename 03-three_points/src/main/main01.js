@@ -43,7 +43,7 @@ pointsMaterial.map = texture; // 纹理贴图
 pointsMaterial.alphaMap = texture; // 透明贴图
 pointsMaterial.transparent = true; // 允许透明
 pointsMaterial.depthWrite = false; // 重叠的也渲染
-pointsMaterial.blending = THREE.AdditiveBlending; // 叠加算法
+pointsMaterial.blending = THREE.AdditiveBlending; // 重叠的物体 可以融合 叠加算法
 
 const points = new THREE.Points(sphereGeometry, pointsMaterial);
 
