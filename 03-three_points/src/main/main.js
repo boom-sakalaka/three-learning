@@ -1,10 +1,10 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 // 导入轨道控制器
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // 导入动画库
-import gsap from "gsap";
+import gsap from 'gsap';
 // 导入dat.gui
-import * as dat from "dat.gui";
+import * as dat from 'dat.gui';
 
 // 目标：运用数学知识设计特定形状的星系
 
@@ -13,15 +13,10 @@ const gui = new dat.GUI();
 const scene = new THREE.Scene();
 
 // 2、创建相机
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  30
-);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 30);
 
 const textureLoader = new THREE.TextureLoader();
-const particlesTexture = textureLoader.load("./textures/particles/1.png");
+// const particlesTexture = textureLoader.load("./textures/particles/1.png");
 // 设置相机位置
 camera.position.set(0, 0, 10);
 scene.add(camera);
@@ -31,9 +26,9 @@ const params = {
   size: 0.1,
   radius: 5,
   branch: 3,
-  color: "#ff6030",
+  color: '#ff6030',
   rotateScale: 0.3,
-  endColor: "#1b3984",
+  endColor: '#1b3984',
 };
 
 let geometry = null;
@@ -58,24 +53,17 @@ const generateGalaxy = () => {
     const distance = Math.random() * params.radius * Math.pow(Math.random(), 3);
     const current = i * 3;
 
-    const randomX =
-      (Math.pow(Math.random() * 2 - 1, 3) * (params.radius - distance)) / 5;
-    const randomY =
-      (Math.pow(Math.random() * 2 - 1, 3) * (params.radius - distance)) / 5;
-    const randomZ =
-      (Math.pow(Math.random() * 2 - 1, 3) * (params.radius - distance)) / 5;
+    const randomX = (Math.pow(Math.random() * 2 - 1, 3) * (params.radius - distance)) / 5;
+    const randomY = (Math.pow(Math.random() * 2 - 1, 3) * (params.radius - distance)) / 5;
+    const randomZ = (Math.pow(Math.random() * 2 - 1, 3) * (params.radius - distance)) / 5;
 
     // const randomX = (Math.pow(Math.random() * 2 - 1, 3) * distance) / 5;
     // const randomY = (Math.pow(Math.random() * 2 - 1, 3) * distance) / 5;
     // const randomZ = (Math.pow(Math.random() * 2 - 1, 3) * distance) / 5;
 
-    positions[current] =
-      Math.cos(branchAngel + distance * params.rotateScale) * distance +
-      randomX;
+    positions[current] = Math.cos(branchAngel + distance * params.rotateScale) * distance + randomX;
     positions[current + 1] = 0 + randomY;
-    positions[current + 2] =
-      Math.sin(branchAngel + distance * params.rotateScale) * distance +
-      randomZ;
+    positions[current + 2] = Math.sin(branchAngel + distance * params.rotateScale) * distance + randomZ;
 
     // 混合颜色，形成渐变色
     const mixColor = centerColor.clone();
@@ -86,8 +74,8 @@ const generateGalaxy = () => {
     colors[current + 2] = mixColor.b;
   }
 
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
   //   设置点材质
   material = new THREE.PointsMaterial({
@@ -96,8 +84,8 @@ const generateGalaxy = () => {
     sizeAttenuation: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-    map: particlesTexture,
-    alphaMap: particlesTexture,
+    // map: particlesTexture,
+    // alphaMap: particlesTexture,
     transparent: true,
     vertexColors: true,
   });
@@ -145,7 +133,7 @@ function render() {
 render();
 
 // 监听画面变化，更新渲染画面
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   //   console.log("画面变化了");
 
   // 更新摄像头
